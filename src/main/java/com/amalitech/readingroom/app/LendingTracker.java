@@ -5,12 +5,13 @@ import com.amalitech.readingroom.domain.Book;
 import com.amalitech.readingroom.domain.Library;
 import com.amalitech.readingroom.domain.Loan;
 import com.amalitech.readingroom.reporting.LibraryReport;
+import com.amalitech.readingroom.reporting.MemberHistoryReport;
 import com.amalitech.readingroom.domain.MemberKind;
 import com.amalitech.readingroom.domain.LendingItem;
 import com.amalitech.readingroom.domain.Member;
 
 
-public class  LendingTracker {
+public class LendingTracker {
 
     public static void main(String[] args) {
         Library lib = new Library("The Reading Room");
@@ -29,7 +30,7 @@ public class  LendingTracker {
         printBorrowMessage(lib.borrow(ama, audioCourse));
         lib.returnItem(audioCourse);
         System.out.println("Returned \"" + audioCourse.getTitle() + "\"");
-
+        
         try {
             printBorrowMessage(lib.borrow(ama, novel));
         } catch (IllegalStateException exception) {
@@ -37,6 +38,9 @@ public class  LendingTracker {
         }
 
         new LibraryReport().printReport(lib);
+        MemberHistoryReport historyReport = new MemberHistoryReport();
+        historyReport.printReport(kofi);
+        historyReport.printReport(ama);
     }
 
     private static void printBorrowMessage(Loan loan) {
