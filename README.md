@@ -11,7 +11,7 @@ app.LendingTracker
   |                                              ^
   |                                              | extends
   |                                         Book / AudioKit
-  `-- calls --> reporting.LibraryReport
+  `-- calls --> reporting.LibraryReport, reporting.MemberHistoryReport
                     `-- reads safe views from --> Library
 
 Loan -- references --> one Member and one LendingItem
