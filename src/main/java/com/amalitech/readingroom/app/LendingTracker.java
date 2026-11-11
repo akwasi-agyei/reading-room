@@ -7,11 +7,6 @@ import com.amalitech.readingroom.domain.MemberKind;
 import com.amalitech.readingroom.domain.LendingItem;
 import com.amalitech.readingroom.domain.Member;
 
-// The Reading Room - community library lending tracker
-// Original program, built by a volunteer. New volunteers are told not to touch it.
-// Run it first to see the sort of thing they are worried about, and look closely
-// at the items and active loans in the end-of-day report.
-
 public class LendingTracker {
 
     public static void main(String[] args) {
@@ -27,13 +22,15 @@ public class LendingTracker {
         lib.addMember(kofi);
         lib.addMember(ama);
 
-        // a normal afternoon
         lib.borrow(kofi, novel);
         lib.borrow(ama, audioCourse);
         lib.returnItem(audioCourse);
 
-        // ... and the sort of thing that worries them:
-        lib.borrow(ama, novel); // the novel is already out with Kofi, but nothing stops this
+        try {
+            lib.borrow(ama, novel);
+        } catch (IllegalStateException exception) {
+            System.out.println(exception.getMessage());
+        }
 
         lib.printReport();
     }

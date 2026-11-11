@@ -2,17 +2,17 @@ package com.amalitech.readingroom.domain;
 
 public class Loan {
     private final int id;
-    private final String memberName;
-    private final String itemTitle;
+    private final Member member;
+    private final LendingItem item;
     private final int loanDays;
     private String status; // "ACTIVE" or "RETURNED"
     private static int counter = 1;
 
-    Loan(String memberName, String itemTitle, int loanDays) {
+    Loan(Member member, LendingItem item, int loanDays) {
         this.id = counter;
         counter++;
-        this.memberName = memberName;
-        this.itemTitle = itemTitle;
+        this.member = member;
+        this.item = item;
         this.loanDays = loanDays;
         this.status = "ACTIVE";
     }
@@ -22,11 +22,19 @@ public class Loan {
     }
 
     public String getMemberName() {
-        return memberName;
+        return member.getName();
     }
 
     public String getItemTitle() {
-        return itemTitle;
+        return item.getTitle();
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public LendingItem getItem() {
+        return item;
     }
 
     public int getLoanDays() {
