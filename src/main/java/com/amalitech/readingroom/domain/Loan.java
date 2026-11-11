@@ -1,21 +1,43 @@
 package com.amalitech.readingroom.domain;
 
 public class Loan {
-    //fields
-    public int id;
-    public String memberName;
-    public String itemTitle;
-    public int loanDays;
-    public String status;
-    static int counter = 1;
+    private final int id;
+    private final String memberName;
+    private final String itemTitle;
+    private final int loanDays;
+    private String status; // "ACTIVE" or "RETURNED"
+    private static int counter = 1;
 
-    //constructor
-    public Loan(String memberName, String itemTitle, int loanDays) {
+    Loan(String memberName, String itemTitle, int loanDays) {
         this.id = counter;
         counter++;
         this.memberName = memberName;
         this.itemTitle = itemTitle;
         this.loanDays = loanDays;
         this.status = "ACTIVE";
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public String getItemTitle() {
+        return itemTitle;
+    }
+
+    public int getLoanDays() {
+        return loanDays;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    void markReturned() {
+        status = "RETURNED";
     }
 }

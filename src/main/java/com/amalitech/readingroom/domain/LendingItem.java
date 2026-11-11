@@ -1,15 +1,13 @@
 package com.amalitech.readingroom.domain;
 
 public class LendingItem {
-    //fields
-    public String title;
-    public String type;
-    public String status;
-    public String currentBorrower;
-    public int id;
-    static int counter = 1;
+    private final String title;
+    private final String type;   // "BOOK" or "AUDIO_KIT"
+    private String status; // "AVAILABLE" or "ON_LOAN"
+    private String currentBorrower;
+    private final int id;
+    private static int counter = 1;
 
-    //constructor
     public LendingItem(String title, String type) {
         this.id = counter;
         counter++;
@@ -18,4 +16,34 @@ public class LendingItem {
         this.status = "AVAILABLE";
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getCurrentBorrower() {
+        return currentBorrower;
+    }
+
+    // Package access: lending transitions are internal to the domain package.
+    void markOnLoan(String borrowerName) {
+        status = "ON_LOAN";
+        currentBorrower = borrowerName;
+    }
+
+    void markAvailable() {
+        status = "AVAILABLE";
+        currentBorrower = null;
+    }
 }

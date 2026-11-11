@@ -4,18 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Library {
-    //fields
-    public String name;
-    public List<LendingItem> items = new ArrayList<>();
-    public List<Member> members = new ArrayList<>();
-    private List<Loan> loans = new ArrayList<>();
+    private final String name;
+    private final List<LendingItem> items = new ArrayList<>();
+    private final List<Member> members = new ArrayList<>();
+    private final List<Loan> loans = new ArrayList<>();
 
-    //constructor
     public Library(String name) {
         this.name = name;
     }
 
-    //methods
     public void addItem(LendingItem item) {
         items.add(item);
     }
@@ -24,42 +21,52 @@ public class Library {
         members.add(member);
     }
 
+    // Lend an item to a member. The loan period depends on the kind of item and member.
     public void borrow(Member member, LendingItem item) {
         int loanDays = 0;
-        if (item.type.equals("BOOK")) {
+        if (item.getType().equals("BOOK")) {
             loanDays = 14;
-            if (member.kind.equals("STUDENT")) {
-                loanDays = 28;
+            if (member.getKind().equals("STUDENT")) {
+                loanDays = 28; // students get longer loans
             }
-            item.status = "ON_LOAN";
-            item.currentBorrower = member.name;
-            System.out.println("Lent \"" + item.title + "\" to " + member.name + "for " + loanDays + " days");
-        } else if (item.type.equals("AUDIO_KIT")) {
+            item.markOnLoan(member.getName());
+            System.out.println("Lent \"" + item.getTitle() + "\" to " + member.getName() + " for " + loanDays + " days");
+        } else if (item.getType().equals("AUDIO_KIT")) {
             loanDays = 7;
-            if (member.kind.equals("STUDENT")) {
-                loanDays = 14;
+            if (member.getKind().equals("STUDENT")) {
+                loanDays = 14; // students get longer loans
             }
-            item.status = "ON_LOAN";
-            item.currentBorrower = member.name;
-            System.out.println("Lent \"" + item.title + "\" to " + member.name + "for " + loanDays + " days");
+            item.markOnLoan(member.getName());
+            System.out.println("Lent \"" + item.getTitle() + "\" to " + member.getName() + " for " + loanDays + " days");
         }
-        member.history.add("Borrowed " + item.title);
-        loans.add(new Loan(member.name, item.title, loanDays));
+        member.recordBorrowing(item.getTitle());
+        loans.add(new Loan(member.getName(), item.getTitle(), loanDays));
     }
 
     public void returnItem(LendingItem item) {
-        item.status = "AVAILABLE";
-        item.currentBorrower = null;
+        item.markAvailable();
         for (Loan l : loans) {
-            if (l.itemTitle.equals(item.title) && l.status.equals("ACTIVE")) {
-                l.status = "RETURNED";
+            if (l.getItemTitle().equals(item.getTitle()) && l.getStatus().equals("ACTIVE")) {
+                l.markReturned();
             }
         }
-        System.out.println("Returned \"" + item.title + "\"");
+        System.out.println("Returned \"" + item.getTitle() + "\"");
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<LendingItem> getItems() {
+        return List.copyOf(items);
+    }
+
+    public List<Member> getMembers() {
+        return List.copyOf(members);
     }
 
     public List<Loan> getLoans() {
-        return loans;
+        return List.copyOf(loans);
     }
 
     public void printReport() {
@@ -67,13 +74,13 @@ public class Library {
         System.out.println("=== " + name + " - end of day ===");
         System.out.println("Items:");
         for (LendingItem i : items) {
-            System.out.println(" \"" + i.title + "\" (" + i.type + "): " + i.status
-                    + (i.currentBorrower != null ? " - with " + i.currentBorrower : ""));
+            System.out.println("  \"" + i.getTitle() + "\" (" + i.getType() + "): " + i.getStatus()
+                    + (i.getCurrentBorrower() != null ? " - with " + i.getCurrentBorrower() : ""));
         }
         System.out.println("Active loans:");
         for (Loan l : loans) {
-            if (l.status.equals("ACTIVE")) {
-                System.out.println(" Loan #" + l.id + ": \"" + l.itemTitle + "\" -> " + l.memberName);
+            if (l.getStatus().equals("ACTIVE")) {
+                System.out.println("  Loan #" + l.getId() + ": \"" + l.getItemTitle() + "\" -> " + l.getMemberName());
             }
         }
     }
