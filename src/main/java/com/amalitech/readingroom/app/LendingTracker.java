@@ -30,7 +30,7 @@ public class LendingTracker {
         printBorrowMessage(lib.borrow(ama, audioCourse));
         lib.returnItem(audioCourse);
         System.out.println("Returned \"" + audioCourse.getTitle() + "\"");
-        
+
         try {
             printBorrowMessage(lib.borrow(ama, novel));
         } catch (IllegalStateException exception) {
