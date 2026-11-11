@@ -32,6 +32,7 @@ src/main/java/com/amalitech/readingroom/
     Loan.java
   reporting/
     LibraryReport.java
+    MemberHistoryReport.java
 ```
 In the first diagram, each name represents a proposed class. Each class defines the data and behavior its objects will have. For example, Book is a class: a particular copy of "Things Fall Apart" is an object created from that Book class.
 
