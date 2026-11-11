@@ -3,9 +3,12 @@ package com.amalitech.readingroom.app;
 import com.amalitech.readingroom.domain.AudioKit;
 import com.amalitech.readingroom.domain.Book;
 import com.amalitech.readingroom.domain.Library;
+import com.amalitech.readingroom.domain.Loan;
+import com.amalitech.readingroom.reporting.LibraryReport;
 import com.amalitech.readingroom.domain.MemberKind;
 import com.amalitech.readingroom.domain.LendingItem;
 import com.amalitech.readingroom.domain.Member;
+
 
 public class LendingTracker {
 
@@ -22,16 +25,22 @@ public class LendingTracker {
         lib.addMember(kofi);
         lib.addMember(ama);
 
-        lib.borrow(kofi, novel);
-        lib.borrow(ama, audioCourse);
+        printBorrowMessage(lib.borrow(kofi, novel));
+        printBorrowMessage(lib.borrow(ama, audioCourse));
         lib.returnItem(audioCourse);
-
+        System.out.println("Returned \"" + audioCourse.getTitle() + "\"");
+        
         try {
-            lib.borrow(ama, novel);
+            printBorrowMessage(lib.borrow(ama, novel));
         } catch (IllegalStateException exception) {
             System.out.println(exception.getMessage());
         }
 
-        lib.printReport();
+        new LibraryReport().printReport(lib);
+    }
+
+    private static void printBorrowMessage(Loan loan) {
+        System.out.println("Lent \"" + loan.getItemTitle() + "\" to " + loan.getMemberName()
+                + " for " + loan.getLoanDays() + " days");
     }
 }
