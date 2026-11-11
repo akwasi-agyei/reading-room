@@ -5,12 +5,12 @@ import java.util.List;
 
 public class Member {
     private final String name;
-    private final String kind; // "STANDARD" or "STUDENT"
+    private final MemberKind kind;
     private final int id;
     private final List<String> history = new ArrayList<>();
     private static int counter = 1;
 
-    public Member(String name, String kind) {
+    public Member(String name, MemberKind kind) {
         this.id = counter;
         counter++;
         this.name = name;
@@ -21,7 +21,7 @@ public class Member {
         return name;
     }
 
-    public String getKind() {
+    public MemberKind getKind() {
         return kind;
     }
 

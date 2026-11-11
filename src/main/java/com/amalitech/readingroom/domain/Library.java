@@ -23,22 +23,9 @@ public class Library {
 
     // Lend an item to a member. The loan period depends on the kind of item and member.
     public void borrow(Member member, LendingItem item) {
-        int loanDays = 0;
-        if (item.getType().equals("BOOK")) {
-            loanDays = 14;
-            if (member.getKind().equals("STUDENT")) {
-                loanDays = 28; // students get longer loans
-            }
-            item.markOnLoan(member.getName());
-            System.out.println("Lent \"" + item.getTitle() + "\" to " + member.getName() + " for " + loanDays + " days");
-        } else if (item.getType().equals("AUDIO_KIT")) {
-            loanDays = 7;
-            if (member.getKind().equals("STUDENT")) {
-                loanDays = 14; // students get longer loans
-            }
-            item.markOnLoan(member.getName());
-            System.out.println("Lent \"" + item.getTitle() + "\" to " + member.getName() + " for " + loanDays + " days");
-        }
+        int loanDays = item.loanDaysFor(member.getKind());
+        item.markOnLoan(member.getName());
+        System.out.println("Lent \"" + item.getTitle() + "\" to " + member.getName() + " for " + loanDays + " days");
         member.recordBorrowing(item.getTitle());
         loans.add(new Loan(member.getName(), item.getTitle(), loanDays));
     }

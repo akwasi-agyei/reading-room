@@ -1,29 +1,39 @@
 package com.amalitech.readingroom.app;
 
-import com.amalitech.readingroom.domain.LendingItem;
+import com.amalitech.readingroom.domain.AudioKit;
+import com.amalitech.readingroom.domain.Book;
 import com.amalitech.readingroom.domain.Library;
+import com.amalitech.readingroom.domain.MemberKind;
+import com.amalitech.readingroom.domain.LendingItem;
 import com.amalitech.readingroom.domain.Member;
+
+// The Reading Room - community library lending tracker
+// Original program, built by a volunteer. New volunteers are told not to touch it.
+// Run it first to see the sort of thing they are worried about, and look closely
+// at the items and active loans in the end-of-day report.
 
 public class LendingTracker {
 
     public static void main(String[] args) {
         Library lib = new Library("The Reading Room");
 
-        LendingItem novel = new LendingItem("Things Fall Apart", "BOOK");
-        LendingItem audioCourse = new LendingItem("French Audio Course", "AUDIO_KIT");
+        LendingItem novel = new Book("Things Fall Apart");
+        LendingItem audioCourse = new AudioKit("French Audio Course");
         lib.addItem(novel);
         lib.addItem(audioCourse);
 
-        Member kofi = new Member("Kofi Mensah", "STANDARD");
-        Member ama = new Member("Ama Owusu", "STUDENT");
+        Member kofi = new Member("Kofi Mensah", MemberKind.STANDARD);
+        Member ama = new Member("Ama Owusu", MemberKind.STUDENT);
         lib.addMember(kofi);
         lib.addMember(ama);
 
+        // a normal afternoon
         lib.borrow(kofi, novel);
         lib.borrow(ama, audioCourse);
         lib.returnItem(audioCourse);
 
-        lib.borrow(ama, novel);
+        // ... and the sort of thing that worries them:
+        lib.borrow(ama, novel); // the novel is already out with Kofi, but nothing stops this
 
         lib.printReport();
     }

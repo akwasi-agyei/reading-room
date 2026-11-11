@@ -1,18 +1,16 @@
 package com.amalitech.readingroom.domain;
 
-public class LendingItem {
+public abstract class LendingItem {
     private final String title;
-    private final String type;   // "BOOK" or "AUDIO_KIT"
     private String status; // "AVAILABLE" or "ON_LOAN"
     private String currentBorrower;
     private final int id;
     private static int counter = 1;
 
-    public LendingItem(String title, String type) {
+    protected LendingItem(String title) {
         this.id = counter;
         counter++;
         this.title = title;
-        this.type = type;
         this.status = "AVAILABLE";
     }
 
@@ -20,9 +18,9 @@ public class LendingItem {
         return title;
     }
 
-    public String getType() {
-        return type;
-    }
+    public abstract String getType();
+
+    public abstract int loanDaysFor(MemberKind kind);
 
     public int getId() {
         return id;
