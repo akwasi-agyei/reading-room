@@ -10,7 +10,7 @@ import com.amalitech.readingroom.domain.LendingItem;
 import com.amalitech.readingroom.domain.Member;
 
 
-public class LendingTracker {
+public class  LendingTracker {
 
     public static void main(String[] args) {
         Library lib = new Library("The Reading Room");
@@ -29,7 +29,7 @@ public class LendingTracker {
         printBorrowMessage(lib.borrow(ama, audioCourse));
         lib.returnItem(audioCourse);
         System.out.println("Returned \"" + audioCourse.getTitle() + "\"");
-        
+
         try {
             printBorrowMessage(lib.borrow(ama, novel));
         } catch (IllegalStateException exception) {
